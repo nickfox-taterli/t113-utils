@@ -116,7 +116,7 @@ arm-linux-gnueabihf-gcc -O2 -Wall cpux_code/rpmsg_ping.c -o rpmsg_ping
 
 ```bash
 # 1. 启动 remoteproc (0 = C906 / 1 = HiFi4)
-echo start     > /sys/class/remoteproc/remoteproc0/state
+echo start > /sys/class/remoteproc/remoteproc0/state
 
 # 2. 创建 endpoint
 #    - 名字要和固件中的 RPMsg NS 名一致:c906-echo / hifi4-echo
@@ -131,6 +131,7 @@ echo start     > /sys/class/remoteproc/remoteproc0/state
 
 ```text
 .
+├── FreeRTOS-HIFI4-DSP  # 在 HiFi4 运行的 RPMsg 测试程序
 ├── c906                # 在 C906 运行的 RPMsg 测试程序
 ├── cpux_code           # 在 A7 Linux 用户态运行的 RPMsg 测试程序
 └── SyterKit            # SyterKit 子模块及其 T113 / 100ask‑t113i 板级代码
