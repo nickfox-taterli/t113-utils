@@ -464,7 +464,6 @@ int main(void)
 	int      ready;
 
 	ns_sent       = 0;
-	i             = 0;
 	vrings_synced = 0;
 
 	DBG_PRINTF("C906 RPMsg firmware start\r\n");
@@ -517,8 +516,5 @@ int main(void)
 			/* 处理 host 在 RX vring 中放过来的消息,做 echo */
 			process_host_messages(vqid);
 		}
-
-		/* i 可以在这里用于节流 debug,当前暂未使用 */
-		(void)i;
 	}
 }

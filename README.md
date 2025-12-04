@@ -41,6 +41,8 @@
 | MSGBOX(ARM ↔ C906) | ✅ | ✅ | ✅ | 主线有 IP 驱动,本工程有裁剪版 + DTS 三个基址/中断配置 |
 | C906 remoteproc 启动/停止 |  | ✅ | ✅ | 节点 `c906: rproc@6010000`,可通过 sysfs 控制 |
 | C906 ↔ A7 RPMsg 通信 |  | ✅ | ✅ | 用户态配合 `rpmsg_open` / `rpmsg_ping` 测试通过 |
+| HiFi4 remoteproc 启动/停止 |  | ✅ | ✅ | 节点 `dsp: rproc@1700000`,可通过 sysfs 控制 |
+| HiFi4 ↔ A7 RPMsg 通信 |  |  | 📅 | 等待实现 |
 | USB-C CC / role 切换 |  |  |  | 板上 USB-C 只硬连成 UFP,暂不考虑 DRD |
 | 音频(I2S / Codec) |  |  |  | 板子上未接 |
 | 其他外设(SPI,CAN,ADC,PWM...) |  |  |  | 预留占位,后续按需补充 |
@@ -91,6 +93,15 @@ make -j"$(nproc)"
   -O binary build/src/c906.elf build/src/c906.bin
 ```
 
+## 编译说明(HiFi4 固件)
+
+**注意,这个不是正经的Cadence固件,是开源测试固件!**
+
+1. 工具链下载地址 https://github.com/YuzukiHD/FreeRTOS-HIFI4-DSP/releases/download/Toolchains/xtensa-hifi4-dsp.tar.gz
+
+2. 进入FreeRTOS-HiFi4-DSP目录进行编译
+
+3. 加载地址是0x4FC00000,而不是0x40900000,因为后者是内核区.
 
 ## 编译 A7 侧 RPMsg 小工具
 
@@ -115,7 +126,6 @@ echo start     > /sys/class/remoteproc/remoteproc0/state
 # 3. 做一次 echo 测试
 ./rpmsg_ping /dev/rpmsg0 "hello from A7"
 ```
-
 
 ## 目录结构
 
