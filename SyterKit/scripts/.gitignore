@@ -1,0 +1,9 @@
+*.bin
+*.img
+*.vfat
+*.txt
+*.zip
+Image
+zImage
+*.dtb
+*.7z
