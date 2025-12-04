@@ -131,6 +131,8 @@ echo start > /sys/class/remoteproc/remoteproc0/state
 
 ```text
 .
+├── hardware            # 硬件电路相关手册
+├── hw_docs             # 芯片相关手册
 ├── FreeRTOS-HIFI4-DSP  # 在 HiFi4 运行的 RPMsg 测试程序
 ├── c906                # 在 C906 运行的 RPMsg 测试程序
 ├── cpux_code           # 在 A7 Linux 用户态运行的 RPMsg 测试程序
