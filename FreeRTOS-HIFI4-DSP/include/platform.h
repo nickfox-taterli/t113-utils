@@ -78,7 +78,6 @@
 
 #define MSGBOX_CHANNLE 3
 
-extern void dsp_msgbox_init(void (*rxcb)(uint32_t, uint32_t));
-extern void dsp_msgbox_channel_send(uint32_t ch, uint8_t *bf, uint32_t len);
+void rpmsg_service_run(void);
 
 #endif

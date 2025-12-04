@@ -29,7 +29,7 @@
 | TF 卡(MMC0) | ✅ |  | ✅ | 用于启动 & 根文件系统,`mmc0` DTS 已打开 |
 | GPIO LED(PG11) |  | ✅ | ✅ | `green:status` 上电默认点亮 |
 | DCXO 24MHz / 基本时钟 | ✅ |  | ✅ | `&dcxo { clock-frequency = <24000000>; };` |
-| 看门狗 WDT | ✅ |  | ⏱ | DTS 已使能,后续补充长时间跑测 |
+| 看门狗 WDT | ✅ |  | ✅ | 工作正常 |
 | USB0 OTG 设备模式 | ✅ |  | ✅ | `&usb_otg { dr_mode = "peripheral"; };`,可枚举为 gadget |
 | USB1 Host(EHCI1/OHCI1,外供 VBUS) | ✅ |  | ✅ | `reg_usb1_vbus` + `usbphy`,U 盘/HID 可用 |
 | RGMII 千兆以太网(外部 PHY) | ✅ |  | ✅ | `phy-mode = "rgmii"`,DHCP/ssh/apt 等正常 |
@@ -42,7 +42,7 @@
 | C906 remoteproc 启动/停止 |  | ✅ | ✅ | 节点 `c906: rproc@6010000`,可通过 sysfs 控制 |
 | C906 ↔ A7 RPMsg 通信 |  | ✅ | ✅ | 用户态配合 `rpmsg_open` / `rpmsg_ping` 测试通过 |
 | HiFi4 remoteproc 启动/停止 |  | ✅ | ✅ | 节点 `dsp: rproc@1700000`,可通过 sysfs 控制 |
-| HiFi4 ↔ A7 RPMsg 通信 |  |  | 📅 | 等待实现 |
+| HiFi4 ↔ A7 RPMsg 通信 |  |  | ✅ | 用户态配合 `rpmsg_open` / `rpmsg_ping` 测试通过 |
 | USB-C CC / role 切换 |  |  |  | 板上 USB-C 只硬连成 UFP,暂不考虑 DRD |
 | 音频(I2S / Codec) |  |  |  | 板子上未接 |
 | 其他外设(SPI,CAN,ADC,PWM...) |  |  |  | 预留占位,后续按需补充 |
@@ -115,12 +115,12 @@ arm-linux-gnueabihf-gcc -O2 -Wall cpux_code/rpmsg_ping.c -o rpmsg_ping
 简单使用示例(设备节点名称按自己系统调整):
 
 ```bash
-# 1. 启动 C906 remoteproc(以 remoteproc0 为例)
+# 1. 启动 remoteproc (0 = C906 / 1 = HiFi4)
 echo start     > /sys/class/remoteproc/remoteproc0/state
 
 # 2. 创建 endpoint
-#    - 名字要和 C906 固件中的 RPMsg NS 名一致:c906-echo
-#    - dst 地址要和 C906 固件中的 LOCAL_EPT_ADDR 一致:0x1
+#    - 名字要和固件中的 RPMsg NS 名一致:c906-echo / hifi4-echo
+#    - dst 地址要和固件中的 LOCAL_EPT_ADDR 一致:0x1 (C906) 0x2 (HiFi4)
 ./rpmsg_open /dev/rpmsg_ctrl0 c906-echo 0x1
 
 # 3. 做一次 echo 测试

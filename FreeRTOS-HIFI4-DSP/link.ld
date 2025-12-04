@@ -225,6 +225,11 @@ SECTIONS
     _text_end = ABSOLUTE(.);
     _etext = .;
   } >ddr1_0_seg :ddr1_0_phdr
+
+  .resource_table : ALIGN(4096)
+  {
+    KEEP(*(.resource_table*))
+  } >ddr1_0_seg :ddr1_0_phdr
   
   .rtos.rodata : ALIGN(4)
   {
@@ -388,4 +393,3 @@ SECTIONS
    PROVIDE(__stack = 0x37d00000);
   _heap_sentry = 0x37d00000;
 }
-

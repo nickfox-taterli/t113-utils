@@ -459,7 +459,6 @@ int main(void)
 {
 	int      ns_sent;
 	uint32_t vqid;
-	int      i;
 	int      vrings_synced;
 	int      ready;
 
