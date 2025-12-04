@@ -121,12 +121,7 @@ echo start     > /sys/class/remoteproc/remoteproc0/state
 
 ```text
 .
-├── CMakeLists.txt      # 顶层 CMake,配置 RISC‑V 交叉编译环境
-├── link.ld             # C906 链接脚本,放在 0x41000000 reserved-memory
-├── config.h.in         # 通过 CMake 生成的配置头文件模板
-├── src                 # C906 侧入口:start.S / main.c / resource_table.c / uart.c
-├── lib                 # 基础 libc 实现:memcpy/memset/strncpy 等
-├── include             # 工程公共头文件(rpmsg.h,rsc_table.h 等)
+├── c906                # 在 C906 运行的 RPMsg 测试程序
 ├── cpux_code           # 在 A7 Linux 用户态运行的 RPMsg 测试程序
 └── SyterKit            # SyterKit 子模块及其 T113 / 100ask‑t113i 板级代码
 ```

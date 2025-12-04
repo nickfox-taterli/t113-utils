@@ -1,0 +1,15 @@
+# Top-level build artifacts
+build/
+
+# Generic CMake build directories anywhere in the tree
+CMakeFiles/
+cmake-build-*/
+build-*/
+
+# Common temporary / output files
+*.o
+*.a
+*.elf
+*.bin
+*.map
+

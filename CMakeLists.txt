@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
+# Global toolchain / compile flags for all RISC-V firmware targets
 set(RISCV_ROOT_PATH "/home/taterli/sdk/Xuantie-900-gcc-linux-5.10.4-glibc-x86_64-V2.8.1")
 
 set(RISCV_ROOT_PATH ${RISCV_ROOT_PATH} CACHE STRING "root path to riscv toolchain")
@@ -28,7 +29,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 0)
 
-# use git version as library version
+# use git version as library version (shared by all sub-firmware)
 find_package(Git QUIET)
 if (Git_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../.git")
     execute_process(
@@ -52,22 +53,9 @@ endif ()
 
 project(T113-I_Miniloader C CXX ASM)
 
-configure_file(
-        "${PROJECT_SOURCE_DIR}/config.h.in"
-        "${PROJECT_BINARY_DIR}/config.h"
-)
-
 set(CMAKE_AR "${RISCV_ROOT_PATH}/bin/riscv64-unknown-linux-gnu-ar")
 set(CMAKE_OBJCOPY "${RISCV_ROOT_PATH}/bin/riscv64-unknown-linux-gnu-objcopy")
 
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/link.ld)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T ${LINKER_SCRIPT} -nostdlib")
-
-include_directories(
-    include
-    include/sys
-    ${PROJECT_BINARY_DIR}
-)
-
-add_subdirectory(lib)
-add_subdirectory(src)
+# C906 firmware is now in its own subdirectory.
+# Later HIFI4 or other cores can be added similarly.
+add_subdirectory(c906)
